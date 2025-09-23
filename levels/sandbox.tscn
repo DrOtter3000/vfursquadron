@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bon2en10rgk0q"]
+
+[ext_resource type="Material" uid="uid://dnn878n0pqjbk" path="res://materials/prototype_grey.tres" id="1_wfhpi"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wfhpi"]
+material = ExtResource("1_wfhpi")
+size = Vector2(20, 500)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_whpuv"]
+points = PackedVector3Array(10, 0, 250, -10, 0, 250, 10, 0, -250, -10, 0, -250)
+
+[sub_resource type="BoxMesh" id="BoxMesh_85hcc"]
+size = Vector3(5, 8, 500)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7he1i"]
+points = PackedVector3Array(-2.5, -4, -250, 2.5, -4, -250, -2.5, -4, 250, -2.5, 4, -250, 2.5, 4, -250, 2.5, -4, 250, -2.5, 4, 250, 2.5, 4, 250)
+
+[node name="Sandbox" type="Node3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -250)
+layers = 4
+mesh = SubResource("PlaneMesh_wfhpi")
+
+[node name="Floor" type="StaticBody3D" parent="Floor"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/Floor"]
+shape = SubResource("ConvexPolygonShape3D_whpuv")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4, -250)
+layers = 4
+material_override = ExtResource("1_wfhpi")
+mesh = SubResource("BoxMesh_85hcc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7he1i")
+
+[node name="Wall2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4, -250)
+layers = 4
+material_override = ExtResource("1_wfhpi")
+mesh = SubResource("BoxMesh_85hcc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7he1i")
