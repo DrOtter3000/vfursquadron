@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://djl7nc8bcdtcj"]
+
+[ext_resource type="Material" uid="uid://cwxskkyl02ygo" path="res://materials/prototype_orange.tres" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://di8xt8ep8hxp4" path="res://player/player.gd" id="1_rkbax"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kqu6x"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_rkbax")
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(1.936, 0, 0, 0, 1, 0, 0, 0, 1.95, 0, 0, 0)
+
+[node name="Model" type="MeshInstance3D" parent="Model"]
+material_override = ExtResource("1_oul6g")
+mesh = SubResource("BoxMesh_kqu6x")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
