@@ -1,15 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://djl7nc8bcdtcj"]
+[gd_scene load_steps=6 format=3 uid="uid://djl7nc8bcdtcj"]
 
 [ext_resource type="Material" uid="uid://cwxskkyl02ygo" path="res://materials/prototype_orange.tres" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://di8xt8ep8hxp4" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://4g28hxqeka6a" path="res://player/model.gd" id="2_g1dw6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rkbax"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kqu6x"]
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_rkbax")
 
-[node name="Model" type="Node3D" parent="."]
-transform = Transform3D(1.936, 0, 0, 0, 1, 0, 0, 0, 1.95, 0, 0, 0)
+[node name="Model" type="CharacterBody3D" parent="."]
+collision_mask = 6
+script = ExtResource("2_g1dw6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model"]
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
+shape = SubResource("BoxShape3D_rkbax")
 
 [node name="Model" type="MeshInstance3D" parent="Model"]
 material_override = ExtResource("1_oul6g")

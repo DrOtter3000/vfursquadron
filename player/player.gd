@@ -1,25 +1,25 @@
 extends Node3D
 
+# TODO: Try RigidBody
+
+@export var max_hitpoints := 5
 @export var speed := 10.0
 @export var max_pos_x := 10.0
 @export var max_pos_y := 10.0
 
+var hitpoints: int = max_hitpoints
+
 @onready var model: Node3D = $Model
 
-func _process(delta: float) -> void:
-	control_model(delta)
+func _ready() -> void:
+	model.max_pos_x = max_pos_x
+	model.max_pos_y = max_pos_y
+	model.speed = speed
 
-func control_model(delta: float):
-	var direction = Input.get_vector("left", "right", "down", "up").normalized()
-	
-	if model.position.x > max_pos_x and direction.x > 0:
-		direction.x = 0
-	elif model.position.x < -max_pos_x and direction.x < 0:
-		direction.x = 0
-	
-	if model.position.y > max_pos_y and direction.y > 0:
-		direction.y = 0
-	elif model.position.y < -max_pos_y and direction.y < 0:
-		direction.y = 0
-	
-	model.position += Vector3(direction.x, direction.y, 0) * delta * speed
+func take_damage(amount: int):
+	hitpoints -= amount
+	print(hitpoints)
+
+func _on_collision_area_body_entered(body: Node3D) -> void:
+	# TODO: add individual damage
+	take_damage(1)
