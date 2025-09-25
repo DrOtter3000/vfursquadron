@@ -4,7 +4,6 @@ var max_pos_x: float
 var max_pos_y: float
 var speed: float
 
-
 func _process(delta: float) -> void:
 	control_model(delta)
 	move_and_slide()
