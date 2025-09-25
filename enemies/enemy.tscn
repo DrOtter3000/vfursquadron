@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://2siyhi3k1t1g"]
+
+[ext_resource type="Script" uid="uid://pf1eteg3pylj" path="res://enemies/enemy.gd" id="1_fw1ev"]
+[ext_resource type="Material" uid="uid://cwxskkyl02ygo" path="res://materials/prototype_orange.tres" id="2_7frlh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7frlh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_orwns"]
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_fw1ev")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_7frlh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = ExtResource("2_7frlh")
+mesh = SubResource("BoxMesh_orwns")

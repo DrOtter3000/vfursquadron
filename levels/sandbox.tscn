@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bon2en10rgk0q"]
+[gd_scene load_steps=14 format=3 uid="uid://bon2en10rgk0q"]
 
 [ext_resource type="Material" uid="uid://dnn878n0pqjbk" path="res://materials/prototype_grey.tres" id="1_wfhpi"]
 [ext_resource type="PackedScene" uid="uid://djl7nc8bcdtcj" path="res://player/player.tscn" id="2_whpuv"]
+[ext_resource type="PackedScene" uid="uid://2siyhi3k1t1g" path="res://enemies/enemy.tscn" id="3_85hcc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_whpuv"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -118,3 +119,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_7he1i")
 }
 autoplay = "Path"
+
+[node name="Enemy" parent="." instance=ExtResource("3_85hcc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -39)
