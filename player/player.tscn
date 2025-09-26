@@ -33,3 +33,5 @@ collision_mask = 7
 
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true
+
+[connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]

@@ -1,7 +1,7 @@
 class_name Enemy
 extends CharacterBody3D
 
-@export var max_hitpoints := 2
+@export var max_hitpoints := 3
 
 var hitpoints
 
@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func take_damage(value):
 	hitpoints -= value
-	if hitpoints < max_hitpoints:
+	if hitpoints <= 0:
 		die()
 
 func die():

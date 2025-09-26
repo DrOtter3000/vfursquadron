@@ -5,7 +5,8 @@ extends Node3D
 @export_category("Player Stats")
 @export var max_hitpoints := 5
 @export var speed := 10.0
-@export var fire_rate := 10.0 #shoots per second
+@export var primary_damage := 1
+@export var fire_rate := 1 #shoots per second
 @export var max_boost := 10.0
 @export var boost_accel := 2.0
 @export var boost_decel := 1.0
@@ -15,6 +16,7 @@ extends Node3D
 @export var max_pos_y := 10.0
 
 var hitpoints: int = max_hitpoints
+var primary_fire_ready = true
 
 @onready var main_animation: AnimationPlayer = $"../MainAnimation"
 @onready var model: Node3D = $Model
@@ -33,6 +35,7 @@ func _process(delta: float) -> void:
 		main_animation.speed_scale = lerp(main_animation.speed_scale, max_boost, delta * boost_accel)
 	else:
 		main_animation.speed_scale = lerp(main_animation.speed_scale, 1.0, delta * boost_decel)
+	
 	if Input.is_action_pressed("fire"):
 		fire_primary()
 
@@ -41,12 +44,22 @@ func take_damage(amount: int):
 	print(hitpoints)
 
 func fire_primary() -> void:
-	if fire_rate_timer.time_left > 0:
+	if not primary_fire_ready:
 		return
-	fire_rate_timer.start()
+	
+	primary_fire_ready = false
 	var mouse_position = get_viewport().get_mouse_position()
 	var target = camera.project_local_ray_normal(mouse_position) * 10000.0
+	fire_rate_timer.start()
 	aim_raycast.target_position = target
 	aim_raycast.force_raycast_update()
-	print(aim_raycast.get_collider())
 	
+	var collider = aim_raycast.get_collider()
+	
+	if collider != null:
+		if collider is Enemy:
+			collider.take_damage(primary_damage)
+			print(str(collider.name) + ": " + str(collider.hitpoints))
+
+func _on_fire_rate_timer_timeout() -> void:
+	primary_fire_ready = true
