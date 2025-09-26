@@ -4,6 +4,9 @@ var max_pos_x: float
 var max_pos_y: float
 var speed: float
 
+@onready var camera: Camera3D = $Camera3D
+@onready var aim_raycast: RayCast3D = $Camera3D/AimRaycast
+
 func _process(delta: float) -> void:
 	control_model(delta)
 	move_and_slide()
