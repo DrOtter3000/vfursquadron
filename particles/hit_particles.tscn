@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfjiya8srnbhn"]
+
+[ext_resource type="Script" uid="uid://c4oo6o1xavl7l" path="res://particles/hit_particles.gd" id="1_u448n"]
+
+[sub_resource type="Gradient" id="Gradient_nfddx"]
+offsets = PackedFloat32Array(0, 0.237374, 0.570707, 0.823232, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.141176, 0.141176, 1, 0.665305, 0, 0.167818, 1, 1, 1, 0.368627, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5as7w"]
+gradient = SubResource("Gradient_nfddx")
+
+[sub_resource type="Curve" id="Curve_fbql1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0401786, 1), 0.0, 0.0, 0, 0, Vector2(0.513393, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_2yuyf"]
+curve = SubResource("Curve_fbql1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3nbft"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 0.15, 0)
+scale_min = 0.5
+scale_max = 0.7
+scale_curve = SubResource("CurveTexture_2yuyf")
+color_ramp = SubResource("GradientTexture1D_5as7w")
+turbulence_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htgy1"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_5g1sr"]
+lightmap_size_hint = Vector2i(17, 9)
+material = SubResource("StandardMaterial3D_htgy1")
+
+[node name="HitParticles" type="GPUParticles3D"]
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_3nbft")
+draw_pass_1 = SubResource("SphereMesh_5g1sr")
+script = ExtResource("1_u448n")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_energy = 5.0
+omni_range = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -15,6 +15,9 @@ extends Node3D
 @export var max_pos_x := 10.0
 @export var max_pos_y := 10.0
 
+@export_category("Packed Scenes")
+@export var hit_particle_instance: PackedScene
+
 var hitpoints: int = max_hitpoints
 var primary_fire_ready = true
 
@@ -41,7 +44,6 @@ func _process(delta: float) -> void:
 
 func take_damage(amount: int):
 	hitpoints -= amount
-	print(hitpoints)
 
 func fire_primary() -> void:
 	if not primary_fire_ready:
@@ -57,9 +59,15 @@ func fire_primary() -> void:
 	var collider = aim_raycast.get_collider()
 	
 	if collider != null:
+		var hit_particles = hit_particle_instance.instantiate()
+		var hit_position: Vector3 = aim_raycast.get_collision_point()
+		
 		if collider is Enemy:
 			collider.take_damage(primary_damage)
-			print(str(collider.name) + ": " + str(collider.hitpoints))
+		
+		get_tree().get_root().add_child(hit_particles)
+		hit_particles.global_position = hit_position
+		
 
 func _on_fire_rate_timer_timeout() -> void:
 	primary_fire_ready = true
