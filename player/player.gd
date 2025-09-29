@@ -6,7 +6,7 @@ extends Node3D
 @export var max_hitpoints := 5
 @export var speed := 10.0
 @export var primary_damage := 1
-@export var fire_rate := 1 #shoots per second
+@export var fire_rate := 10.0 #shoots per second
 @export var max_boost := 10.0
 @export var boost_accel := 2.0
 @export var boost_decel := 1.0
