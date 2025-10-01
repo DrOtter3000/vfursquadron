@@ -150,3 +150,4 @@ light_energy = 0.0
 libraries = {
 &"": SubResource("AnimationLibrary_nfddx")
 }
+autoplay = "RESET"

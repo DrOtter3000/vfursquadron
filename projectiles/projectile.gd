@@ -7,6 +7,10 @@ var player_pos
 var direction
 var last_pos
 
+@onready var timer: Timer = $Timer
+
+@export var explosion: PackedScene = preload("res://particles/small_explosion.tscn")
+
 
 func _ready() -> void:
 	# TODO: take data from enemy
@@ -24,3 +28,11 @@ func process_movement(delta):
 
 func _on_timer_timeout() -> void:
 	queue_free()
+
+func _on_body_entered(body: Node3D) -> void:
+	var explosion_instance = explosion.instantiate()
+	get_parent().add_child(explosion_instance)
+	explosion_instance.global_position = global_position
+	timer.stop()
+	queue_free()
+	

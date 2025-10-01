@@ -43,6 +43,7 @@ func _process(delta: float) -> void:
 
 func take_damage(amount: int):
 	hitpoints -= amount
+	print(hitpoints)
 
 func fire_primary() -> void:
 	if not primary_fire_ready:
