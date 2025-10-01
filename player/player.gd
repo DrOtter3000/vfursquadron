@@ -1,7 +1,5 @@
 extends Node3D
 
-# TODO: Try RigidBody
-
 @export_category("Player Stats")
 @export var max_hitpoints := 5
 @export var speed := 10.0
@@ -26,6 +24,7 @@ var primary_fire_ready = true
 @onready var camera: Camera3D = $Model/Camera3D
 @onready var aim_raycast: RayCast3D = $Model/Camera3D/AimRaycast
 @onready var fire_rate_timer: Timer = $FireRateTimer
+
 
 func _ready() -> void:
 	model.max_pos_x = max_pos_x
@@ -67,7 +66,6 @@ func fire_primary() -> void:
 		
 		get_tree().get_root().add_child(hit_particles)
 		hit_particles.global_position = hit_position
-		
 
 func _on_fire_rate_timer_timeout() -> void:
 	primary_fire_ready = true
