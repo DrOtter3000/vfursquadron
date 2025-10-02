@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://b82g430np1ft2"]
+
+[ext_resource type="PackedScene" uid="uid://cdgo2pj6q2xil" path="res://assets/SM_Veh_Part_Body_03.fbx" id="1_2o6kb"]
+[ext_resource type="PackedScene" uid="uid://g0c2am0n1a3o" path="res://assets/SM_Veh_Part_Cockpit_02.fbx" id="2_ehb7j"]
+[ext_resource type="PackedScene" uid="uid://djd4tayuftk6h" path="res://assets/SM_Veh_Part_Engine_01.fbx" id="3_kru1t"]
+[ext_resource type="PackedScene" uid="uid://dqfdes10hg6mu" path="res://assets/SM_Veh_Part_Wing_04.fbx" id="4_aorky"]
+
+[node name="WhikeyDingo" type="Node3D"]
+
+[node name="SM_Veh_Part_Body_03" parent="." instance=ExtResource("1_2o6kb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="SM_Veh_Part_Cockpit_02" parent="." instance=ExtResource("2_ehb7j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="SM_Veh_Part_Engine_01" parent="." instance=ExtResource("3_kru1t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="SM_Veh_Part_Engine_02" parent="." instance=ExtResource("3_kru1t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="SM_Veh_Part_Wing_04" parent="." instance=ExtResource("4_aorky")]
+transform = Transform3D(-1.5, 0, -2.26494e-07, 0, 1.5, 0, 2.26494e-07, 0, -1.5, -4, -1, -1)
+
+[node name="SM_Veh_Part_Wing_05" parent="." instance=ExtResource("4_aorky")]
+transform = Transform3D(1.5, 1.31134e-07, -3.57628e-07, -1.31134e-07, 1.5, 0, -3.57628e-07, -3.12648e-14, -1.5, 4, -1, -1)
