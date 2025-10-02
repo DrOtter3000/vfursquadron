@@ -18,6 +18,7 @@ extends Node3D
 
 var hitpoints: int = max_hitpoints
 var primary_fire_ready = true
+var basic_fov: float
 
 @onready var main_animation: AnimationPlayer = $"../MainAnimation"
 @onready var model: Node3D = $Model
@@ -31,19 +32,28 @@ func _ready() -> void:
 	model.max_pos_y = max_pos_y
 	model.speed = speed
 	fire_rate_timer.wait_time = 1 / fire_rate
+	basic_fov = camera.fov
 
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("boost"):
-		main_animation.speed_scale = lerp(main_animation.speed_scale, max_boost, delta * boost_accel)
-	else:
-		main_animation.speed_scale = lerp(main_animation.speed_scale, 1.0, delta * boost_decel)
+	boost_ship(delta)
+	
+	set_fov()
 	
 	if Input.is_action_pressed("fire"):
 		fire_primary()
 
+func boost_ship(delta) -> void:
+	if Input.is_action_pressed("boost"):
+		main_animation.speed_scale = lerp(main_animation.speed_scale, max_boost, delta * boost_accel)
+	else:
+		main_animation.speed_scale = lerp(main_animation.speed_scale, 1.0, delta * boost_decel)
+
+func set_fov() -> void:
+	camera.fov = basic_fov * (1 + (main_animation.speed_scale/50))
+	print(basic_fov)
+
 func take_damage(amount: int):
 	hitpoints -= amount
-	print(hitpoints)
 
 func fire_primary() -> void:
 	if not primary_fire_ready:
