@@ -2,7 +2,6 @@
 
 [ext_resource type="Material" uid="uid://dnn878n0pqjbk" path="res://materials/prototype_grey.tres" id="1_wfhpi"]
 [ext_resource type="PackedScene" uid="uid://djl7nc8bcdtcj" path="res://player/player.tscn" id="2_whpuv"]
-[ext_resource type="PackedScene" uid="uid://2siyhi3k1t1g" path="res://enemies/enemy.tscn" id="3_85hcc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_whpuv"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -36,7 +35,7 @@ length = 500.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player:position")
+tracks/0/path = NodePath("Path3D/Player:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -51,7 +50,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player:position")
+tracks/0/path = NodePath("Path3D/Player:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -67,6 +66,13 @@ _data = {
 &"RESET": SubResource("Animation_85hcc")
 }
 
+[sub_resource type="Curve3D" id="Curve3D_whpuv"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.169734, 0, -4.11539, 0, 0, 0, 0, 0, 0, 0, 0, -449, -4, 0, 6, 4, 0, -6, 3, 0, -498, 0, 0, 0, 0, 0, 0, 37, 0, -534, 0, 0, 0, 0, 0, 0, 337.98, 0, -833.659),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
 [node name="Sandbox" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -76,62 +82,92 @@ environment = SubResource("Environment_7he1i")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -250)
+[node name="Environment" type="Node" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 99)
 layers = 4
 mesh = SubResource("PlaneMesh_wfhpi")
+skeleton = NodePath("../..")
 
-[node name="Floor" type="StaticBody3D" parent="Floor"]
+[node name="Floor" type="StaticBody3D" parent="Environment/Floor"]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/Floor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor/Floor"]
 shape = SubResource("ConvexPolygonShape3D_whpuv")
 
-[node name="Wall" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4, -250)
+[node name="Wall" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4, 99)
 layers = 4
 material_override = ExtResource("1_wfhpi")
 mesh = SubResource("BoxMesh_85hcc")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall"]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_7he1i")
 
-[node name="Wall3" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -12.5, 4, -3)
+[node name="Wall2" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4, 99)
 layers = 4
 material_override = ExtResource("1_wfhpi")
 mesh = SubResource("BoxMesh_85hcc")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Wall3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall2"]
 collision_layer = 4
-collision_mask = 9
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall2/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_7he1i")
 
-[node name="Wall2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4, -250)
+[node name="Floor2" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 162, 0.01, -310)
+layers = 4
+mesh = SubResource("PlaneMesh_wfhpi")
+skeleton = NodePath("../..")
+
+[node name="Floor" type="StaticBody3D" parent="Environment/Floor2"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor2/Floor"]
+shape = SubResource("ConvexPolygonShape3D_whpuv")
+
+[node name="Wall3" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 159.161, 4, -322.839)
 layers = 4
 material_override = ExtResource("1_wfhpi")
 mesh = SubResource("BoxMesh_85hcc")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Wall2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall3"]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall3/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_7he1i")
 
-[node name="Player" parent="." instance=ExtResource("2_whpuv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+[node name="Wall4" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 187.839, 4, -323.161)
+layers = 4
+material_override = ExtResource("1_wfhpi")
+mesh = SubResource("BoxMesh_85hcc")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall4"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall4/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7he1i")
 
 [node name="MainAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_7he1i")
 }
-autoplay = "Path"
 
-[node name="Enemy" parent="." instance=ExtResource("3_85hcc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -39)
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 348)
+curve = SubResource("Curve3D_whpuv")
+
+[node name="Player" parent="Path3D" instance=ExtResource("2_whpuv")]
+transform = Transform3D(1, 0, 0.000381523, 0, 1, 0, -0.000381523, 0, 1, 0, 4, 0)

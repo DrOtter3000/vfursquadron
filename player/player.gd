@@ -1,11 +1,12 @@
-extends Node3D
+extends PathFollow3D
 
 @export_category("Player Stats")
 @export var max_hitpoints := 5
-@export var speed := 10.0
+@export var direct_speed := 7.0
+@export var speed := 0.2
 @export var primary_damage := 1
 @export var fire_rate := 10.0 #shoots per second
-@export var max_boost := 10.0
+@export var max_boost := .4
 @export var boost_accel := 2.0
 @export var boost_decel := 1.0
 
@@ -19,8 +20,9 @@ extends Node3D
 var hitpoints: int = max_hitpoints
 var primary_fire_ready = true
 var basic_fov: float
+var basic_speed: float
 
-@onready var main_animation: AnimationPlayer = $"../MainAnimation"
+#@onready var main_animation: AnimationPlayer = $"../MainAnimation"
 @onready var model: Node3D = $Model
 @onready var camera: Camera3D = $Model/Camera3D
 @onready var aim_raycast: RayCast3D = $Model/Camera3D/AimRaycast
@@ -28,13 +30,17 @@ var basic_fov: float
 
 
 func _ready() -> void:
+	basic_speed = speed
 	model.max_pos_x = max_pos_x
 	model.max_pos_y = max_pos_y
-	model.speed = speed
+	model.speed = direct_speed
 	fire_rate_timer.wait_time = 1 / fire_rate
 	basic_fov = camera.fov
 
 func _process(delta: float) -> void:
+	# Progress by path follow
+	progress += speed
+	
 	boost_ship(delta)
 	
 	set_fov()
@@ -44,13 +50,12 @@ func _process(delta: float) -> void:
 
 func boost_ship(delta) -> void:
 	if Input.is_action_pressed("boost"):
-		main_animation.speed_scale = lerp(main_animation.speed_scale, max_boost, delta * boost_accel)
+		speed = lerp(speed, max_boost, delta * boost_accel)
 	else:
-		main_animation.speed_scale = lerp(main_animation.speed_scale, 1.0, delta * boost_decel)
+		speed = lerp(speed, basic_speed, delta * boost_decel)
 
 func set_fov() -> void:
-	camera.fov = basic_fov * (1 + (main_animation.speed_scale/50))
-	print(basic_fov)
+	camera.fov = basic_fov * (1 + speed)
 
 func take_damage(amount: int):
 	hitpoints -= amount
